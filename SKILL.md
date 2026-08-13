@@ -22,6 +22,8 @@ Core judgments:
 
 These are lenses, not universal rules. Direct clues, repetition, narrow solve paths, and cleanup can all serve pacing, accessibility, reinforcement, or release.
 
+The references are independent and scoped by task domain; most tasks need only the relevant one or two.
+
 ## References by task domain
 
 ### Generator construction and design space
