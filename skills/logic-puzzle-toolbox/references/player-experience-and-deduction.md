@@ -50,6 +50,20 @@ They can vary independently. A count, comparison, adjacency, or compound clue ca
 
 A useful distinction is whether a clue mostly exposes a final relationship or leaves a partially resolved constraint that can interact with other information. The latter can create intermediate reasoning material instead of only transmitting stated facts.
 
+A small contrast using ordinary equality and exclusion clues:
+
+```text
+Mostly consumed:
+Alice is the baker.  The baker drinks tea.
+→ Alice drinks tea; the two clues have largely done their work.
+
+More interactive:
+The baker drinks tea.  The doctor drinks coffee.  Alice drinks neither.
+→ Alice is neither baker nor doctor; that unresolved job pair can matter later.
+```
+
+The difference is not richer clue syntax but whether the consequence remains useful as material for later reasoning.
+
 ## Clue lifetime and human-style traces
 
 A clue's **lifetime** can be viewed as the span between when it first contributes and when the current state makes it fully satisfied or otherwise safe to discard. A clue used once and immediately exhausted plays a different role from one whose partial consequence remains live and combines with later discoveries. The distribution of clue lifetimes can therefore expose serial "use and forget" solving that clue counts or clue types miss.
