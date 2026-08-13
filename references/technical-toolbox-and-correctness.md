@@ -113,6 +113,8 @@ Stronger forms of validation can include:
 - regression corpora containing known edge cases;
 - explicit checks that generated clues are true of the claimed solution and that no inequivalent semantic solution survives.
 
+Generated audit text can need checking too. Statements such as "this clue entails X" or a walkthrough of a reveal plan can disagree with the encoded instance, so diagnostic claims can be checked against the same formal semantics used for validation.
+
 For deterministic generators, reproducibility is itself testable: identical inputs should map to identical outputs, while corpus tests can separately examine whether that deterministic mapping has undesirable concentration.
 
 ## Useful resources
