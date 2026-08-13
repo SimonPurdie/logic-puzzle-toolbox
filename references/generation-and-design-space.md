@@ -34,6 +34,26 @@ A generator with dozens of clue templates may still have a narrow logical vocabu
 
 Candidate clue languages also delimit optimization claims. A clue set that is minimal or optimal within one candidate language need not be minimal under a richer language containing different relations or compound clues.
 
+## Quality proxies and design specifications
+
+Generator specifications often contain properties intended to encourage a player experience without directly describing that experience.
+
+Examples include:
+
+- every clue is eventually reachable;
+- no more than one clue is revealed after an action;
+- reveal state is deterministic or path-independent;
+- a clue remains sufficient to make progress near the end;
+- a minimum number of deduction steps occurs between reveals;
+- a target number of clue templates appears;
+- an exact solver reports a target difficulty.
+
+These can all be useful constraints. They describe reachability, pacing, determinism, variety, or computational structure. Their satisfaction does not imply that clues interact, that intermediate discoveries are reusable, or that the player performs interesting inference.
+
+A common response to shallow generated puzzles is to enlarge the surface vocabulary—for example by adding comparisons, counts, spatial relations, or compound clues. That can enlarge the design space, but it does not by itself enlarge the **deductive-role vocabulary**. More elaborate clue forms can still repeatedly serve as direct answer delivery, local propagation, or cleanup.
+
+Conversely, very simple clue forms can support substantial reasoning when their consequences overlap and remain partially unresolved.
+
 ## Objective-induced style
 
 Optimization pressure can create a recognizable style without representing it explicitly.
