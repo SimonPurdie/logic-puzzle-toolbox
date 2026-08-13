@@ -1,182 +1,78 @@
 # Player Experience and Deduction
 
-This reference concerns what solving a puzzle asks a person to do. It is deliberately more opinionated than the technical references: logical validity, uniqueness, and computational difficulty do not by themselves make a satisfying puzzle.
+This reference concerns what solving asks a person to do. Its broad preference is for **discovery over administration**: satisfying progress often creates relationships that can be combined or reinterpreted later, while tedious progress often grows a ledger of assignments and exclusions.
 
-A useful broad preference is for **discovery over administration**. Interesting puzzle states often contain newly derived relationships that can be remembered, combined, or reinterpreted later. Tedious states often contain mostly a growing ledger of individual assignments and exclusions.
-
-This is a tendency rather than a rule. Direct clues, routine propagation, repetition, and cleanup can all contribute pacing, accessibility, reinforcement, or relief.
+Direct clues, routine propagation, repetition, and cleanup are not inherently poor design; they can provide setup, pacing, reinforcement, accessibility, or release.
 
 ## Five-question clue-set heuristic
 
-These questions are intended as a compact diagnostic rather than a scoring rubric.
+These are diagnostic questions, not a scoring rubric.
 
 ### 1. Where does the player's effort come from?
 
-The same amount of time can be spent on very different cognitive work. Some puzzles require combining facts or finding consequences that are not locally obvious; others require scanning many possibilities, maintaining a large state table, or repeatedly propagating elementary exclusions.
-
-A useful distinction is therefore **inferential effort versus bookkeeping effort**, rather than simply easy versus hard.
+Is effort coming from combining information and finding non-local consequences, or mainly from scanning, remembering state, and propagating elementary exclusions? More work does not necessarily mean more reasoning.
 
 ### 2. Do clues need each other?
 
-Could most clues be processed one at a time, converted into an assignment or exclusion, and then mentally discarded? Or do partially useful clues and derived facts remain relevant because they later combine with information from elsewhere?
+Could most clues be converted into an assignment or exclusion and then mentally discarded? Clues and derived facts that remain partially useful and later combine with information from elsewhere create a different solving experience from serial data entry.
 
-A clue set can be highly interconnected in the formal constraint graph while still behaving like serial data entry for the player. Convergence of independent reasoning threads, multi-premise deductions, and facts that acquire significance later all belong to the broader idea of interaction.
+### 3. Does solving create reusable intermediate knowledge?
 
-### 3. Does solving create useful intermediate knowledge?
-
-Progress need not consist only of final assignments such as `Alice = baker` or `Tuesday != blue`.
-
-Potential intermediate discoveries include restricted sets, pairings, equivalence classes, ordering relations, conditional facts, grouped possibilities, structural invariants, or other small "lemmas." Their value is especially visible when they become premises for later deductions.
-
-A long solve that only produces assignments can be shallower than a shorter solve that creates and reuses intermediate structure.
+Beyond final assignments, does the solve produce restricted sets, pairings, equivalences, orderings, conditionals, grouped possibilities, or other small "lemmas" that become premises later? A long chain of assignments can be shallower than a shorter solve that creates and reuses structure.
 
 ### 4. Does the reasoning develop and pay off?
 
-A solve can repeat the same operation from beginning to end, or it can change character as earlier information is recontextualized.
+Do separate threads converge, old information acquire new significance, or a bottleneck deduction unlock previously dormant information? A dependency chain such as `A -> B -> C -> D -> E` can still be mechanically repetitive.
 
-Possible forms of development include separate threads converging, an earlier observation becoming newly useful, a bottleneck deduction unlocking dormant clues, a derived relationship receiving a later payoff, or a difficult inference being followed by a deliberate release into simpler cleanup.
+### 5. What remains when surface details are removed?
 
-The presence of a long dependency chain alone does not imply this kind of development; `A -> B -> C -> D -> E` can still be mechanically shallow.
-
-### 5. What remains when surface details are stripped away?
-
-Names, themes, wording, numbers, and clue templates can make two instances appear different while leaving the same logical skeleton underneath.
-
-A useful mental experiment replaces surface content with abstract symbols and asks what the player is still discovering. This can reveal repeated anchor-chain-disambiguator patterns, identical clue roles, or near-identical deduction structures hidden by presentation variety.
+If names, theme, wording, and literal values are replaced by abstract symbols, is there still a distinctive logical shape? This can expose recurring recipes hidden by presentation variety.
 
 ## Reveal progression is not logical progression
 
-Progressive disclosure can create pacing without creating deduction. A reveal system may be monotonic, deterministic, path-independent, and free of unreachable clues while still behaving as:
+Progressive disclosure can create pacing without creating deduction. A reveal system may be deterministic, path-independent, and free of unreachable clues while the solve still behaves like:
 
 ```text
 fact -> enter fact -> unlock next fact -> enter fact -> unlock next fact
 ```
 
-Those are meaningful properties of the reveal mechanism, but they do not describe **why** the next player action is inferable. A newly revealed clue can function mainly as answer delivery even when the condition that revealed it is elaborate.
+Reveal conditions describe when information appears; they do not describe why the next player action is inferable. Requiring several forced actions between reveals measures spacing, not necessarily deductive richness.
 
-Similarly, requiring several forced actions before the next reveal measures spacing, not necessarily deductive richness. Several routine propagations can still amount to clerical work.
+## Clue syntax, information strength, and deductive role
 
-## Answer-bearing clues and constraint-bearing clues
+Three properties are easy to conflate:
 
-One useful qualitative distinction concerns whether a clue mostly exposes a final relationship or leaves a partially resolved constraint that can interact with other information.
+- **clue complexity**: how complicated the statement is;
+- **information strength**: how much of the solution space it removes;
+- **deductive role**: what reasoning it enables in combination with the rest of the puzzle.
 
-This is not a distinction between simple and sophisticated clue syntax. Equality, inequality, counts, comparisons, adjacency, spatial relations, and compound statements can all be either cognitively direct or richly interactive depending on their role in the surrounding puzzle.
+They can vary independently. A count, comparison, adjacency, or compound clue can still function mainly as answer delivery; a simple equality or exclusion can be useful setup for a later synthesis. Generating clues from a known hidden solution is therefore not itself a source of triviality.
 
-Generating a clue from a known hidden solution is not itself a source of triviality. Many successful generation methods begin from a completed solution. The relevant question is what inferential work remains for the player after the clue is presented.
+A useful distinction is whether a clue mostly exposes a final relationship or leaves a partially resolved constraint that can interact with other information. The latter can create intermediate reasoning material instead of only transmitting stated facts.
 
-## Fact transmission versus derived structure
+## Solve shape and logical payoff
 
-Consider a conventional logic-grid domain with people, jobs, and drinks.
+Human-oriented explanation traces can have very different shapes: broad independent propagation, long shallow chains, converging threads, bottlenecks, or facts that are reused after a delay. Clue count and solver runtime describe these poorly.
 
-A clue fragment dominated by fact transmission might behave like:
-
-```text
-Alice is the baker.
-The baker drinks tea.
-Carol is the doctor.
-The doctor drinks coffee.
-Bob does not drink tea.
-```
-
-Much of the useful state is a collection of assignments reached by following one clue at a time:
-
-```text
-Alice -> baker -> tea
-Carol -> doctor -> coffee
-Bob != tea
-```
-
-Contrast that with an equally ordinary clue vocabulary whose consequences produce partial relationships before final answers. For example, knowing that the baker drinks tea and the doctor drinks coffee, together with a person's exclusions from both drinks, can establish that the person's job lies in the remaining pair of jobs. If another thread independently restricts a second person to an overlapping pair, all-different structure can turn those partial results into a stronger group-level fact. A later clue can then resolve that fact.
-
-The qualitative distinction is not "direct clues versus relational clues." It is whether the solve mostly **transmits stated information** or **creates new reasoning material that later participates in further inference**.
-
-## Interaction does not require exotic clue types
-
-Simple equality, inequality, cardinality, and all-different constraints can support rich deductions when their consequences overlap. Conversely, a linguistically elaborate or mathematically strong clue can be cognitively trivial if it independently settles a large part of the grid.
-
-This separates at least three properties that are easy to conflate:
-
-- **clue complexity**: how complicated an individual statement is;
-- **information strength**: how many possible solutions the statement excludes;
-- **deductive character**: what reasoning becomes possible through the statement's interaction with the rest of the puzzle.
-
-A clue can score high on one and low on another.
-
-## Deduction topology
-
-A human-oriented explanation or proof trace gives another view of puzzle character.
-
-Some recurring shapes include:
-
-```text
-Broad independent propagation
-
-      start
-   / / | | \ \
-  A B  C D  E F
-```
-
-```text
-Long shallow chain
-
-start -> A -> B -> C -> D -> E
-```
-
-```text
-Convergence
-
-A -> C --\
-         +-> F
-B -> D --/
-```
-
-```text
-Separated threads with later payoff
-
-A -> B -> C ----\
-                +-> G -> H
-D -> E -> F ----/
-```
-
-No topology is intrinsically superior. The point is that clue count and solver runtime do not describe these shapes well, while players can experience them very differently.
-
-## Recontextualization and logical payoff
-
-A particularly useful qualitative phenomenon occurs when a fact learned earlier becomes important for a reason that was not yet available when it was derived.
-
-This can create the feeling that earlier work mattered and that the puzzle is developing rather than merely shrinking domains. It is related to, but not identical with, dependency depth: an old fact can be reused after a long interval or combined with a newly discovered structure.
+**Recontextualization** is one useful pattern: something established earlier becomes important for a reason that was unavailable when it was first derived. This creates logical payoff without requiring exotic clue types or a particularly long solve.
 
 ## Refutation and counterfactual reasoning
 
-Some puzzles permit progress of the form:
-
-```text
-if X were true
-    -> consequences
-    -> contradiction
-therefore not X
-```
-
-Refutation depth, assumption-based reasoning, and the amount of simple reasoning needed to expose a contradiction provide another lens on human-facing difficulty. Their presence is not a requirement for quality; they simply describe a kind of deductive work that ordinary propagation metrics can miss.
+Some puzzles support deductions of the form "if X, then these consequences lead to contradiction, therefore not X." Refutation depth and the amount of reasoning needed to expose a contradiction provide another lens on human difficulty that ordinary propagation counts can miss. Their presence is not a requirement for quality.
 
 ## Difficulty is not one quantity
 
-Several notions of difficulty can coexist:
+Useful but non-equivalent views include:
 
-- machine solver runtime, conflicts, branches, or propagation rounds;
-- number or cost of human-style inference steps;
-- depth and dependency structure of an explanation;
-- refutation depth;
-- information-theoretic reduction;
-- bookkeeping or memory burden;
-- visual search burden;
-- empirical human completion time, error rate, or subjective rating.
+- machine effort such as runtime, conflicts, branches, or propagation rounds;
+- human-style inference cost and explanation structure;
+- bookkeeping, memory, or visual-search burden;
+- empirical player completion time, error rate, or subjective rating.
 
-These can correlate without being interchangeable. An objective that makes a solver work harder may increase human difficulty, human tedium, both, or neither depending on the representation and puzzle family.
+A change that makes a solver work harder can increase human difficulty, human tedium, both, or neither.
 
 ## Further reading and resources
 
 - Bart Bogaerts, Emilio Gamba, and Tias Guns, **A framework for step-wise explaining how to solve constraint satisfaction problems**. Logic-grid puzzles are used as a case study; explanations can involve combinations of constraints. https://arxiv.org/abs/2006.06343
-- Emilio Gamba, Bart Bogaerts, and Tias Guns, **Efficiently Explaining CSPs with Unsatisfiable Subset Optimization**. Connects human-oriented explanation steps with optimal unsatisfiable subsets and hitting sets. https://arxiv.org/abs/2105.11763
-- Radek Pelánek, **Difficulty Rating of Sudoku Puzzles by a Computational Model** (FLAIRS 2011). A useful example of separating individual solving techniques from dependency/availability structure in human-oriented difficulty modelling. https://ocs.aaai.org/ocs/index.php/FLAIRS/FLAIRS11/paper/view/2517
-- Fiona Shyne, Kaylah Facey, and Seth Cooper, **Procedurally Puzzling: On Algorithmic Difficulty and Player Experience in QD-Generated Logic Grid Puzzles** (AIIDE 2024). Directly examines generated logic-grid puzzles and the relationship between an algorithmic difficulty proxy and player experience. https://doi.org/10.1609/aiide.v20i1.31873
+- Radek Pelánek, **Difficulty Rating of Sudoku Puzzles by a Computational Model**. Separates solving-technique difficulty from dependency and availability structure. https://ocs.aaai.org/ocs/index.php/FLAIRS/FLAIRS11/paper/view/2517
+- Fiona Shyne, Kaylah Facey, and Seth Cooper, **Procedurally Puzzling: On Algorithmic Difficulty and Player Experience in QD-Generated Logic Grid Puzzles**. Examines the relationship between an algorithmic difficulty proxy and player experience. https://doi.org/10.1609/aiide.v20i1.31873
