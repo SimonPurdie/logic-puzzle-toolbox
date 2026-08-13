@@ -1,119 +1,59 @@
 # Generation and Design Space
 
-This reference concerns the space a puzzle generator explores: how instances can come into existence, what the available clue language makes expressible, and how search or optimization can accidentally narrow the resulting style.
+This reference maps alternative ways to think about puzzle generation, especially choices that can quietly narrow what a generator produces. It does not define a preferred workflow.
 
-It is a catalogue of alternative formulations rather than a preferred workflow.
+## Generator formulations
 
-## Generator architectures as different views of the same problem
+Different formulations expose different objects to search over:
 
-Common generator families include, among others:
+- **solution-first / reductive**: a completed solution exists first; clues or visible information are selected, hidden, or removed;
+- **constraint-first**: clues or constraints accumulate while properties such as satisfiability or uniqueness remain under consideration;
+- **ambiguity- or counterexample-first**: alternative solutions are explicit objects to be separated by later constraints;
+- **deduction-first**: an intended proof trace or reasoning structure is part of the generated object;
+- **mutation / transformation**: an existing valid instance is changed while selected properties are preserved;
+- **optimization over puzzle encodings**: local, evolutionary, MaxSAT, MIP, CP, or other search acts over candidate instances;
+- **repertoire-oriented generation**: the target is a collection covering different regions of a design space rather than one optimum.
 
-- **solution-first / reductive generation**: a completed solution exists first, with information subsequently selected, hidden, or removed;
-- **clue-first / constraint-first construction**: constraints accumulate while satisfiability, uniqueness, or other properties remain under consideration;
-- **constructive generation**: the puzzle and its solution co-evolve or are built together rather than beginning from a fully specified target;
-- **ambiguity-first generation**: alternative solutions or underdetermined states become explicit objects, with later constraints separating them;
-- **deduction-first generation**: an intended reasoning structure or proof trace is part of the object being synthesized;
-- **mutation or transformation**: existing valid instances are changed while preserving selected properties;
-- **search or optimization over puzzle encodings**: local search, evolutionary search, MaxSAT/MIP/CP optimization, or other optimizers act over candidate instances;
-- **repertoire-oriented generation**: the object of interest is a collection covering different regions of a design space rather than one optimum.
+A large parameter space inside one mechanism can still map to a narrow family of logical structures.
 
-These views expose different variables and failure modes. A large parameter space inside one construction mechanism can still produce a narrow family of logical structures.
+## The clue language shapes the reachable design space
 
-## The clue language is part of the generator
+Clue variety has several layers:
 
-The available clue forms define more than presentation. They constrain which distinctions can be expressed and which kinds of intermediate reasoning can occur.
+- **surface variety**: wording or templates differ while expressing essentially the same relation;
+- **relational variety**: clues express genuinely different relationships among puzzle entities;
+- **deductive-role variety**: clues play different roles in the solve, such as setup, propagation, synthesis, bottleneck, confirmation, or cleanup.
 
-Several kinds of apparent variety can therefore differ:
+A generator can have many clue templates but a narrow logical vocabulary if those templates repeatedly play the same role. The candidate clue language also bounds claims such as "minimal clue set": minimal within one language need not be minimal if richer relations or compound clues are available.
 
-- **lexical variety**: different wording for essentially the same relation;
-- **syntactic variety**: several clue templates with similar logical effect;
-- **relational variety**: genuinely different relationships among puzzle entities;
-- **deductive-role variety**: clues that participate differently in a solve, such as setup, propagation, synthesis, bottleneck, confirmation, or cleanup.
+## Quality proxies in generator specifications
 
-A generator with dozens of clue templates may still have a narrow logical vocabulary if those templates repeatedly occupy the same role.
+Specifications often encode properties intended to encourage a player experience without directly measuring it. Examples include clue reachability, deterministic or path-independent reveals, minimum steps between reveals, target clue counts, or solver-based difficulty.
 
-Candidate clue languages also delimit optimization claims. A clue set that is minimal or optimal within one candidate language need not be minimal under a richer language containing different relations or compound clues.
+These can be useful constraints, but they measure pacing, reachability, size, or computational structure rather than clue interaction or inferential richness. Expanding the clue vocabulary with comparisons, counts, spatial relations, or compound statements can enlarge the surface design space without enlarging the **deductive-role vocabulary**.
 
-## Quality proxies and design specifications
+Generating clues from a known hidden solution is not itself a source of triviality. The important distinction is what inferential work remains after a clue is presented.
 
-Generator specifications often contain properties intended to encourage a player experience without directly describing that experience.
+## Objective-induced style and concentration
 
-Examples include:
+Objectives, deterministic tie-breakers, pruning rules, clue ordering, and canonical construction choices can all become stylistic priors. A structural family that satisfies uniqueness, clue-count, difficulty, and performance targets reliably can dominate output even when no preference for that family was explicit.
 
-- every clue is eventually reachable;
-- no more than one clue is revealed after an action;
-- reveal state is deterministic or path-independent;
-- a clue remains sufficient to make progress near the end;
-- a minimum number of deduction steps occurs between reveals;
-- a target number of clue templates appears;
-- an exact solver reports a target difficulty.
+Randomness is not required for this failure mode. A deterministic generator can still map much of its input space to a small number of structural patterns. Likewise, varying many parameters within one construction mechanism is different from having multiple generative mechanisms.
 
-These can all be useful constraints. They describe reachability, pacing, determinism, variety, or computational structure. Their satisfaction does not imply that clues interact, that intermediate discoveries are reusable, or that the player performs interesting inference.
+## Counterexamples, hitting sets, and clue sufficiency
 
-A common response to shallow generated puzzles is to enlarge the surface vocabulary—for example by adding comparisons, counts, spatial relations, or compound clues. That can enlarge the design space, but it does not by itself enlarge the **deductive-role vocabulary**. More elaborate clue forms can still repeatedly serve as direct answer delivery, local propagation, or cleanup.
-
-Conversely, very simple clue forms can support substantial reasoning when their consequences overlap and remain partially unresolved.
-
-## Objective-induced style
-
-Optimization pressure can create a recognizable style without representing it explicitly.
-
-For example, an objective combining uniqueness, low clue count, target solver difficulty, and generation speed may have a region of the search space where a particular construction pattern satisfies all four reliably. Search can repeatedly return to that region even when many other valid puzzle structures exist.
-
-This is one explanation for generators that produce large numbers of distinct instances with a small number of recurring "recipes".
-
-The same concern applies to hand-designed heuristics. A deterministic tie-breaker, clue ordering, pruning rule, or canonical construction can become a strong stylistic prior even when it appears to be only an implementation detail.
-
-## Counterexamples, hitting sets, and unavoidable sets
-
-For a fixed target solution, clue selection has a useful connection to counterexamples.
-
-Let `U` be a universe of candidate clues that are all true of target solution `T`. For an alternative solution `M`, the clues that distinguish `T` from `M` form a set:
+For a fixed target solution `T`, let `U` be candidate clues that are true of `T`. An alternative solution `M` is excluded by any clue that is false in `M`:
 
 ```text
 D(M) = { c in U : c is false in M }
 ```
 
-Any selected clue set that excludes `M` intersects `D(M)`. Excluding every alternative solution therefore has the shape of a hitting-set problem over these distinguishing sets.
+Any clue set that excludes every alternative solution must intersect every such `D(M)`. This connects clue selection to hitting sets, counterexample-guided refinement, and the "unavoidable set" or "trade" terminology used in some puzzle families.
 
-This perspective connects puzzle generation to:
-
-- minimum or weighted hitting sets;
-- MaxSAT;
-- counterexample-guided refinement;
-- minimal unsatisfiable subsets when clues are represented as assumptions;
-- "unavoidable set" and "trade" terminology used in some established puzzle families.
-
-This is not equivalent to saying clue selection ought to be implemented as a hitting-set solver. The value of the connection is that it exposes a well-developed family of algorithms and diagnostic concepts that may otherwise remain invisible.
-
-## MUS, MCS, and clue sufficiency
-
-Suppose puzzle rules plus all candidate clue assumptions determine target `T`, and an additional constraint requires the semantic solution to differ from `T`. The resulting formula is unsatisfiable.
-
-Under that formulation:
-
-- a **minimal unsatisfiable subset (MUS)** of clue assumptions can correspond to a subset-minimal sufficient clue set;
-- an **optimal/smallest MUS** can correspond to a cheapest or smallest sufficient set under the chosen candidate language;
-- **minimal correction sets (MCSes)** and hitting sets provide dual views of the same structure.
-
-This connection is especially useful when clue costs encode something other than count, such as presentation complexity or a deliberately chosen aesthetic property.
-
-## Mechanism diversity and parameter diversity
-
-A generator can vary many parameters while retaining one generative ancestry. Another generator can produce a smaller literal output space through several qualitatively different construction mechanisms.
-
-These are different notions of diversity. Related Quality-Diversity research sometimes uses heterogeneous search operators or "emitters," offering a useful analogy for generators whose construction processes themselves may need examination.
-
-## Determinism does not remove distributional questions
-
-A deterministic generator still induces a distribution or traversal over its reachable puzzle space through its inputs, seeds, enumeration order, tie-breaking, or external parameters. Repetition can arise from the mapping between those inputs and structural output, not only from pseudorandomness.
-
-Consequently, deterministic generation can still exhibit concentration, blind spots, repeated motifs, and objective-induced mode collapse.
+A related formulation treats candidate clues as assumptions and adds `semantic_solution != T`. If all clue assumptions make that formula unsatisfiable, then MUS/MCS machinery exposes sufficient clue subsets and their duals; weighted variants connect naturally to MaxSAT. These are alternative formulations, not prescriptions for a generator architecture.
 
 ## Further reading and resources
 
-- Barbara De Kegel and Mads Haahr, **Procedural Puzzle Generation: A Survey** (IEEE Transactions on Games, 2020). Broad survey of puzzle-generation methods and characteristics. https://doi.org/10.1109/TG.2019.2917792
-- PySAT `Hitman`, a cardinality-/subset-minimal hitting-set enumerator. https://pysathq.github.io/docs/html/api/examples/hitman.html
-- PySAT `OptUx`, an optimal MUS enumerator using implicit hitting-set machinery. https://pysathq.github.io/docs/html/api/examples/optux.html
-- Jean-Baptiste Mouret and Jeff Clune, **Illuminating search spaces by mapping elites**. https://arxiv.org/abs/1504.04909
-- Daniele Gravina et al., **Procedural Content Generation through Quality Diversity**. https://arxiv.org/abs/1907.04053
+- Barbara De Kegel and Mads Haahr, **Procedural Puzzle Generation: A Survey**. Broad survey of puzzle-generation methods. https://doi.org/10.1109/TG.2019.2917792
+- PySAT `Hitman` — minimum/minimal hitting-set enumeration. https://pysathq.github.io/docs/html/api/examples/hitman.html
+- PySAT `OptUx` — optimal MUS enumeration using implicit hitting sets. https://pysathq.github.io/docs/html/api/examples/optux.html
