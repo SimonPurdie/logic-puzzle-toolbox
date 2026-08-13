@@ -16,11 +16,11 @@ The same amount of time can be spent on very different cognitive work. Some puzz
 
 A useful distinction is therefore **inferential effort versus bookkeeping effort**, rather than simply easy versus hard.
 
-### 2. Do clues and derived facts interact?
+### 2. Do clues need each other?
 
-Some clue sets behave almost like independent data entry: each clue supplies a fact, that fact is consumed, and the next clue does the same.
+Could most clues be processed one at a time, converted into an assignment or exclusion, and then mentally discarded? Or do partially useful clues and derived facts remain relevant because they later combine with information from elsewhere?
 
-Other clue sets contain consequences that remain partially unresolved until combined with information from elsewhere. Convergence of independent reasoning threads, multi-premise deductions, and facts that acquire significance later all belong to this broader idea of interaction.
+A clue set can be highly interconnected in the formal constraint graph while still behaving like serial data entry for the player. Convergence of independent reasoning threads, multi-premise deductions, and facts that acquire significance later all belong to the broader idea of interaction.
 
 ### 3. Does solving create useful intermediate knowledge?
 
@@ -43,6 +43,26 @@ The presence of a long dependency chain alone does not imply this kind of develo
 Names, themes, wording, numbers, and clue templates can make two instances appear different while leaving the same logical skeleton underneath.
 
 A useful mental experiment replaces surface content with abstract symbols and asks what the player is still discovering. This can reveal repeated anchor-chain-disambiguator patterns, identical clue roles, or near-identical deduction structures hidden by presentation variety.
+
+## Reveal progression is not logical progression
+
+Progressive disclosure can create pacing without creating deduction. A reveal system may be monotonic, deterministic, path-independent, and free of unreachable clues while still behaving as:
+
+```text
+fact -> enter fact -> unlock next fact -> enter fact -> unlock next fact
+```
+
+Those are meaningful properties of the reveal mechanism, but they do not describe **why** the next player action is inferable. A newly revealed clue can function mainly as answer delivery even when the condition that revealed it is elaborate.
+
+Similarly, requiring several forced actions before the next reveal measures spacing, not necessarily deductive richness. Several routine propagations can still amount to clerical work.
+
+## Answer-bearing clues and constraint-bearing clues
+
+One useful qualitative distinction concerns whether a clue mostly exposes a final relationship or leaves a partially resolved constraint that can interact with other information.
+
+This is not a distinction between simple and sophisticated clue syntax. Equality, inequality, counts, comparisons, adjacency, spatial relations, and compound statements can all be either cognitively direct or richly interactive depending on their role in the surrounding puzzle.
+
+Generating a clue from a known hidden solution is not itself a source of triviality. Many successful generation methods begin from a completed solution. The relevant question is what inferential work remains for the player after the clue is presented.
 
 ## Fact transmission versus derived structure
 
