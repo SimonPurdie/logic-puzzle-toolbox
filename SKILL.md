@@ -1,29 +1,26 @@
 ---
 name: logic-puzzle-toolbox
-description: Reference toolbox for explicitly invoked work on deterministic logic-puzzle generators, solvers, clue systems, human-facing deduction quality, diversity, evaluation, and correctness. Provides design judgment, alternative conceptual lenses, less-obvious techniques, and research pointers without prescribing a generator architecture or solver implementation.
+description: Explicit-invocation reference toolbox for deterministic logic-puzzle generators and solvers, focused on player-facing deduction quality, generator design space, corpus diversity, and less-obvious correctness techniques. Offers design judgments and alternative lenses without prescribing an implementation.
 disable-model-invocation: true
 metadata:
-  version: "0.2.0"
+  version: "0.3.0"
   invocation: "explicit-only"
 ---
 
 # Logic Puzzle Toolbox
 
-This skill is a toolbox for reasoning about logic-puzzle software rather than an instruction manual. It is deliberately **opinionated about puzzle qualities** while remaining **pluralistic about implementation and generation mechanisms**.
+This skill exists mainly for puzzle-design failure modes that a capable coding agent may not notice from correctness or solver performance alone. It is **opinionated about puzzle qualities** while remaining **pluralistic about implementation and generation mechanisms**.
 
-The central distinction is between technical success and puzzle quality. A puzzle can be valid, deterministic, unique, difficult for a machine, and superficially varied while still being repetitive or tedious for a person. Conversely, simple clue forms can participate in rich reasoning when their consequences interact.
+Core judgments:
 
-Useful design judgments in this skill include:
+- Correctness, uniqueness, and deterministic solvability are necessary for many puzzle games but say little about whether the solve is satisfying.
+- Generator specifications often encode proxies for an intended experience. Reachability, solve length, clue-type variety, solver difficulty, or reveal pacing can all succeed while the puzzle remains shallow or tedious.
+- Player effort from inference is different from effort from bookkeeping, scanning, or repeated obvious propagation. Interesting inference often creates intermediate relationships that matter again later.
+- Clue syntax and deductive quality are separate. Simple clues can interact richly; elaborate comparisons, counts, or spatial relations can still function as answer delivery.
+- Surface variation is not structural or experiential variation. Many clue templates or outputs can still instantiate a small number of logical recipes.
+- Objectives, tie-breakers, pruning, and construction mechanisms can induce an accidental house style even when no style was requested.
 
-- uniqueness and deterministic solvability are important properties, but a low bar for player-facing quality;
-- generator specifications often encode proxies for the desired experience: clue reachability, solve length, clue-type variety, solver difficulty, or deterministic reveal pacing can all be satisfied while the resulting puzzle remains shallow or tedious;
-- effort caused by bookkeeping, scanning, or repeated obvious propagation is qualitatively different from effort caused by inference;
-- interesting progress often creates reusable intermediate knowledge rather than only filling final assignments;
-- many surface-level clue types can still amount to a narrow logical vocabulary;
-- a generator can have an enormous combinatorial output space while occupying a narrow structural or experiential range;
-- optimizing measurable properties can create an accidental house style even when no style was explicitly requested.
-
-None of these imply that direct clues, repetition, narrow solve paths, or cleanup phases are inherently undesirable. They can provide setup, pacing, reinforcement, accessibility, or release. The concern is what role they play in the whole solve.
+These are lenses, not universal rules. Direct clues, repetition, narrow solve paths, and cleanup can all serve pacing, accessibility, reinforcement, or release.
 
 ## References by task domain
 
@@ -31,36 +28,22 @@ None of these imply that direct clues, repetition, narrow solve paths, or cleanu
 
 [`references/generation-and-design-space.md`](references/generation-and-design-space.md)
 
-Relevant to work involving generator architecture, instance construction, clue selection, clue-language design, optimization objectives, generators that converge on a small family of constructions, or questions about what kinds of puzzles a generator can reach.
-
-Contains alternative generation formulations and connections to search, synthesis, hitting sets, MUS/MCS, counterexamples, and multiple generative mechanisms. The emphasis is on enlarging the agent's conceptual option space rather than choosing an architecture.
+Relevant to generator architecture, clue selection, clue-language limits, optimization objectives, repeated construction patterns, and less-obvious formulations such as counterexample separation, hitting sets, and MUS/MCS.
 
 ### Puzzle design and player-facing deduction
 
 [`references/player-experience-and-deduction.md`](references/player-experience-and-deduction.md)
 
-Relevant to work involving clue design, intended solution experience, human-facing difficulty, puzzles that are valid but dull or clerical, evaluation of a particular clue set, or questions about what makes one solve more satisfying than another.
-
-Contains a compact qualitative heuristic, controlled contrasts, and concepts such as clue interaction, derived intermediate structure, logical payoff, recontextualization, deduction topology, refutation, and bookkeeping load.
+Relevant to clue design, intended solve experience, human-facing difficulty, progressive reveal systems, puzzles that feel clerical or shallow, and qualitative review of a clue set.
 
 ### Diversity and corpus evaluation
 
 [`references/diversity-and-evaluation.md`](references/diversity-and-evaluation.md)
 
-Relevant to work involving repetitive or "samey" generated output, comparison of generator versions, selection from a large generated corpus, structural similarity, expressive range, or diversity metrics.
-
-Contains several ways of describing similarity and difference across puzzles, including surface, structural, deductive, solution, and generative-mechanism perspectives, plus connections to expressive-range analysis, novelty search, and quality-diversity research.
+Relevant to repetitive or "samey" output, structural similarity, expressive range, corpus comparison, behavioural descriptors, novelty, and quality-diversity perspectives.
 
 ### Technical toolbox and correctness
 
 [`references/technical-toolbox-and-correctness.md`](references/technical-toolbox-and-correctness.md)
 
-Relevant to work involving uniqueness, equivalence, solver representation, unusual constraints, independent verification, or technical machinery that may support generation and evaluation.
-
-Contains the less-obvious parts of SAT/SMT/CP tooling: semantic versus auxiliary variables, projected uniqueness, assumptions and cores, MUS/MCS and hitting-set duality, global constraints, symmetry, and verification strategies. Standard introductions to backtracking, CSP, SAT, SMT, or MRV are intentionally omitted.
-
-## Cross-cutting concerns
-
-Some problems naturally span references. A generator whose outputs are repetitive may involve both its reachable design space and corpus-level expressive range. Puzzles that are diverse but tedious may involve both clue/generator design and player-facing deductive character. Apparent uniqueness failures may involve either solver representation or validation semantics.
-
-The reference boundaries are therefore lenses, not mutually exclusive categories.
+Relevant to uniqueness semantics, symmetry and equivalence, solver-model versus puzzle-solution distinctions, assumptions and cores, global constraints, and independent verification. Standard introductions to backtracking, CSP, SAT, SMT, or MRV are intentionally omitted.
