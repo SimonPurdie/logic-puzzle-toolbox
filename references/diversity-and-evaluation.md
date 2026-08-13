@@ -16,6 +16,7 @@ Possible views include:
 - **constraint-structure diversity**: topology of variable/clue incidence graphs or constraint hypergraphs;
 - **solution-structure diversity**: whether completed solutions themselves occupy different structural families;
 - **deductive diversity**: proof traces, deduction motifs, branching, convergence, refutation, bottlenecks, and reuse of intermediate facts;
+- **reveal-structure diversity**: how progressive information is gated or exposed over the course of play;
 - **difficulty-profile diversity**: where effort occurs and what kind of effort it is;
 - **generative-mechanism diversity**: whether instances arise through different construction mechanisms or merely different parameters of one mechanism.
 
@@ -49,6 +50,14 @@ Puzzle-oriented behavioural descriptions might include:
 - construction ancestry or generator pathway.
 
 These are examples of lenses, not a proposed universal feature vector.
+
+## Reveal topology versus deduction topology
+
+A puzzle can have a sophisticated dependency graph governing when information appears while the reasoning between those reveals remains a repeated direct-fact chain.
+
+Reveal topology therefore describes a different property from deduction topology. Deterministic gating, all-of conditions, path independence, or multi-stage unlock structures can produce substantial temporal structure without producing substantial inferential interaction for the player.
+
+Conversely, a puzzle with all clues visible from the beginning can still contain deep or highly interactive deduction. Progressive disclosure and logical progression can correlate, but neither implies the other.
 
 ## Hidden sameness and canonicalization
 
