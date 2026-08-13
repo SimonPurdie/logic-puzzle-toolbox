@@ -46,7 +46,7 @@ D(M) = { c in U : c is false in M }
 
 Any clue set that excludes every alternative solution must intersect every such `D(M)`. This connects clue selection to hitting sets, counterexample-guided refinement, and the "unavoidable set" or "trade" terminology used in some puzzle families.
 
-A related formulation treats candidate clues as assumptions and adds `semantic_solution != T`. If all clue assumptions make that formula unsatisfiable, **minimal unsatisfiable subset (MUS)** and **minimal correction subset (MCS)** machinery exposes sufficient clue subsets and their duals; weighted variants connect naturally to MaxSAT. These are alternative formulations, not prescriptions for a generator architecture.
+A related formulation treats candidate clues as assumptions and adds `semantic_solution != T`. If all clue assumptions make that formula unsatisfiable, **minimal unsatisfiable subset (MUS)** and **minimal correction subset (MCS)** machinery exposes sufficient clue subsets and their duals; weighted variants connect naturally to MaxSAT. This interpretation assumes `T` has separately been established as a valid semantic solution; otherwise unsatisfiability may reflect inconsistency rather than uniqueness. These are alternative formulations, not prescriptions for a generator architecture.
 
 ## Further reading and resources
 
