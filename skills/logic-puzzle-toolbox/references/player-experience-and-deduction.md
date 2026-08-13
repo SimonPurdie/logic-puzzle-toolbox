@@ -58,8 +58,8 @@ Alice is the baker.  The baker drinks tea.
 → Alice drinks tea; the two clues have largely done their work.
 
 More interactive:
-The baker drinks tea.  The doctor drinks coffee.  Alice drinks neither.
-→ Alice is neither baker nor doctor; that unresolved job pair can matter later.
+The baker drinks tea.  The doctor drinks coffee.  Alice drinks neither tea nor coffee.
+→ Alice is neither baker nor doctor; that partial restriction can matter later.
 ```
 
 The difference is not richer clue syntax but whether the consequence remains useful as material for later reasoning.
