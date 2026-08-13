@@ -3,7 +3,7 @@ name: logic-puzzle-toolbox
 description: Explicit-invocation reference toolbox for deterministic logic-puzzle generators and solvers, focused on player-facing deduction quality, generator design space, corpus diversity, and less-obvious correctness techniques. Offers design judgments and alternative lenses without prescribing an implementation.
 disable-model-invocation: true
 metadata:
-  version: "0.4.0"
+  version: "0.4.1"
   invocation: "explicit-only"
 ---
 
