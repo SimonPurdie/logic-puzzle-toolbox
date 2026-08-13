@@ -3,7 +3,7 @@ name: logic-puzzle-toolbox
 description: Reference toolbox for explicitly invoked work on deterministic logic-puzzle generators, solvers, clue systems, human-facing deduction quality, diversity, evaluation, and correctness. Provides design judgment, alternative conceptual lenses, less-obvious techniques, and research pointers without prescribing a generator architecture or solver implementation.
 disable-model-invocation: true
 metadata:
-  version: "0.1.0"
+  version: "0.2.0"
   invocation: "explicit-only"
 ---
 
@@ -16,6 +16,7 @@ The central distinction is between technical success and puzzle quality. A puzzl
 Useful design judgments in this skill include:
 
 - uniqueness and deterministic solvability are important properties, but a low bar for player-facing quality;
+- generator specifications often encode proxies for the desired experience: clue reachability, solve length, clue-type variety, solver difficulty, or deterministic reveal pacing can all be satisfied while the resulting puzzle remains shallow or tedious;
 - effort caused by bookkeeping, scanning, or repeated obvious propagation is qualitatively different from effort caused by inference;
 - interesting progress often creates reusable intermediate knowledge rather than only filling final assignments;
 - many surface-level clue types can still amount to a narrow logical vocabulary;
