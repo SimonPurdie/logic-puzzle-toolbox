@@ -22,7 +22,7 @@ Beyond final assignments, does the solve produce restricted sets, pairings, equi
 
 ### 4. Does the reasoning develop and pay off?
 
-Do separate threads converge, old information acquire new significance, or a bottleneck deduction unlock previously dormant information? A dependency chain such as `A -> B -> C -> D -> E` can still be mechanically repetitive.
+Do separate threads converge, old information acquire new significance, or a bottleneck deduction unlock previously dormant information? This delayed reuse or **recontextualization** can create logical payoff. A dependency chain such as `A -> B -> C -> D -> E` can still be mechanically repetitive.
 
 ### 5. What remains when surface details are removed?
 
@@ -49,12 +49,6 @@ Three properties are easy to conflate:
 They can vary independently. A count, comparison, adjacency, or compound clue can still function mainly as answer delivery; a simple equality or exclusion can be useful setup for a later synthesis. Generating clues from a known hidden solution is therefore not itself a source of triviality.
 
 A useful distinction is whether a clue mostly exposes a final relationship or leaves a partially resolved constraint that can interact with other information. The latter can create intermediate reasoning material instead of only transmitting stated facts.
-
-## Solve shape and logical payoff
-
-Human-oriented explanation traces can have very different shapes: broad independent propagation, long shallow chains, converging threads, bottlenecks, or facts that are reused after a delay. Clue count and solver runtime describe these poorly.
-
-**Recontextualization** is one useful pattern: something established earlier becomes important for a reason that was unavailable when it was first derived. This creates logical payoff without requiring exotic clue types or a particularly long solve.
 
 ## Refutation and counterfactual reasoning
 
