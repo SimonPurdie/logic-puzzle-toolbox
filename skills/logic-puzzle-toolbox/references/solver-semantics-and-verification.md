@@ -10,17 +10,25 @@ This is the distinction between **model uniqueness** and **projected/semantic un
 
 Symmetry adds another layer. **Solver symmetry breaking**, **puzzle equivalence** (for example interchangeable labels or rotations), and **aesthetic symmetry** of the presented clues are different concepts. A uniqueness check can answer the wrong question if these are conflated.
 
-## Uniqueness as a second-solution question
+## Uniqueness needs existence and no alternative
 
-Given a known semantic target `T`, uniqueness can be expressed as the absence of any inequivalent semantic solution:
+For a known semantic target `T`, uniqueness has two parts:
 
 ```text
-base rules
-AND selected clues
-AND semantic_solution != T
+SAT(base rules
+    AND selected clues
+    AND semantic_solution = T)
+
+UNSAT(base rules
+      AND selected clues
+      AND semantic_solution != T)
 ```
 
-If that query is unsatisfiable, the target is unique under the chosen semantic projection and equivalence relation. This formulation also exposes incremental solving, assumptions, cores, and subset-minimization machinery.
+The first establishes that `T` is actually a valid solution. The second establishes that no inequivalent semantic alternative exists under the chosen projection and equivalence relation.
+
+Without the first check, an inconsistent puzzle—or an encoding bug that rejects `T`—can also make the second query unsatisfiable. That is a vacuous uniqueness result, not evidence of a unique valid puzzle.
+
+This two-part view also exposes incremental solving, assumptions, cores, and subset-minimization machinery.
 
 ## Assumptions, cores, MUS/MCS, and hitting sets
 
