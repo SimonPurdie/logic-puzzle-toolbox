@@ -4,14 +4,10 @@ This reference maps alternative ways to think about puzzle generation, especiall
 
 ## Generator formulations
 
-Different formulations expose different objects to search over:
+Familiar families include solution-first/reductive generation, constraint-first construction, mutation of existing instances, and optimization over puzzle encodings. Less-obvious formulations that can expose different search objects include:
 
-- **solution-first / reductive**: a completed solution exists first; clues or visible information are selected, hidden, or removed;
-- **constraint-first**: clues or constraints accumulate while properties such as satisfiability or uniqueness remain under consideration;
 - **ambiguity- or counterexample-first**: alternative solutions are explicit objects to be separated by later constraints;
 - **deduction-first**: an intended proof trace or reasoning structure is part of the generated object;
-- **mutation / transformation**: an existing valid instance is changed while selected properties are preserved;
-- **optimization over puzzle encodings**: local, evolutionary, MaxSAT, MIP, CP, or other search acts over candidate instances;
 - **repertoire-oriented generation**: the target is a collection covering different regions of a design space rather than one optimum.
 
 A large parameter space inside one mechanism can still map to a narrow family of logical structures.
@@ -50,7 +46,7 @@ D(M) = { c in U : c is false in M }
 
 Any clue set that excludes every alternative solution must intersect every such `D(M)`. This connects clue selection to hitting sets, counterexample-guided refinement, and the "unavoidable set" or "trade" terminology used in some puzzle families.
 
-A related formulation treats candidate clues as assumptions and adds `semantic_solution != T`. If all clue assumptions make that formula unsatisfiable, then MUS/MCS machinery exposes sufficient clue subsets and their duals; weighted variants connect naturally to MaxSAT. These are alternative formulations, not prescriptions for a generator architecture.
+A related formulation treats candidate clues as assumptions and adds `semantic_solution != T`. If all clue assumptions make that formula unsatisfiable, **minimal unsatisfiable subset (MUS)** and **minimal correction subset (MCS)** machinery exposes sufficient clue subsets and their duals; weighted variants connect naturally to MaxSAT. These are alternative formulations, not prescriptions for a generator architecture.
 
 ## Further reading and resources
 
