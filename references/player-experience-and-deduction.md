@@ -50,6 +50,12 @@ They can vary independently. A count, comparison, adjacency, or compound clue ca
 
 A useful distinction is whether a clue mostly exposes a final relationship or leaves a partially resolved constraint that can interact with other information. The latter can create intermediate reasoning material instead of only transmitting stated facts.
 
+## Clue lifetime and human-style traces
+
+A clue's **lifetime** can be viewed as the span between when it first contributes and when the current state makes it fully satisfied or otherwise safe to discard. A clue used once and immediately exhausted plays a different role from one whose partial consequence remains live and combines with later discoveries. The distribution of clue lifetimes can therefore expose serial "use and forget" solving that clue counts or clue types miss.
+
+A human-style explanation trace is also a model, not ground truth. Which steps appear, their order, and which are labelled easy or advanced depend on the solver's inference vocabulary and rule-priority policy. Such traces are useful lenses on player experience, but conclusions drawn from them inherit those modelling choices.
+
 ## Refutation and counterfactual reasoning
 
 Some puzzles support deductions of the form "if X, then these consequences lead to contradiction, therefore not X." Refutation depth and the amount of reasoning needed to expose a contradiction provide another lens on human difficulty that ordinary propagation counts can miss. Their presence is not a requirement for quality.
@@ -67,6 +73,7 @@ A change that makes a solver work harder can increase human difficulty, human te
 
 ## Further reading and resources
 
+- Guillaume Escamocher and Barry O'Sullivan, **Solving Logic Grid Puzzles with an Algorithm that Imitates Human Behavior**. Uses an explicit human-oriented inference-rule order, produces stepwise explanations, and tracks when clues become fully satisfied and can be discarded. https://arxiv.org/abs/1910.06636
 - Bart Bogaerts, Emilio Gamba, and Tias Guns, **A framework for step-wise explaining how to solve constraint satisfaction problems**. Logic-grid puzzles are used as a case study; explanations can involve combinations of constraints. https://arxiv.org/abs/2006.06343
 - Radek Pelánek, **Difficulty Rating of Sudoku Puzzles by a Computational Model**. Separates solving-technique difficulty from dependency and availability structure. https://ocs.aaai.org/ocs/index.php/FLAIRS/FLAIRS11/paper/view/2517
 - Fiona Shyne, Kaylah Facey, and Seth Cooper, **Procedurally Puzzling: On Algorithmic Difficulty and Player Experience in QD-Generated Logic Grid Puzzles**. Examines the relationship between an algorithmic difficulty proxy and player experience. https://doi.org/10.1609/aiide.v20i1.31873
