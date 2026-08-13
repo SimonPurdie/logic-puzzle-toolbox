@@ -1,40 +1,18 @@
 # Technical Toolbox and Correctness
 
-This reference intentionally does not explain standard backtracking, CSP modelling, MRV, SAT, SMT, or ordinary unit testing. A capable coding agent can usually reconstruct those techniques.
+This reference omits standard introductions to backtracking, CSP, SAT, SMT, MRV, and ordinary unit testing. It focuses on puzzle-specific traps and solver facilities that are easier to overlook.
 
-The emphasis is on concepts, solver facilities, and resources that are easier to overlook and that connect directly to puzzle generation or validation.
+## What counts as a distinct solution?
 
-## Semantic solutions versus solver models
+Solver encodings often contain auxiliary variables—reification or Tseitin variables, channeling variables, flow/reachability state, or other bookkeeping—that are not part of the player-visible answer. Two complete solver models can differ on auxiliaries while representing the same puzzle solution.
 
-Solver encodings often contain variables that are not part of the puzzle answer:
+This is the distinction between **model uniqueness** and **projected/semantic uniqueness**. Model enumeration, model counting, and second-solution checks may need to project onto the variables that define the puzzle answer.
 
-- Tseitin or reification variables;
-- channeling variables;
-- reachability or flow variables;
-- symmetry-breaking auxiliaries;
-- bookkeeping variables introduced by an encoding.
+Symmetry adds another layer. **Solver symmetry breaking**, **puzzle equivalence** (for example interchangeable labels or rotations), and **aesthetic symmetry** of the presented clues are different concepts. A uniqueness check can answer the wrong question if these are conflated.
 
-Two complete solver models can disagree on these variables while representing the same human-visible solution.
+## Uniqueness as a second-solution question
 
-This creates a distinction between **model uniqueness** and **projected/semantic uniqueness**. A second-solution constraint usually concerns the variables that define the displayed puzzle solution rather than every internal solver variable.
-
-The same distinction matters for model enumeration and model counting.
-
-## Equivalence and symmetry
-
-Some puzzle domains contain interchangeable labels, rotations, reflections, colours, groups, or other automorphisms.
-
-Three ideas can easily be conflated:
-
-- **solver symmetry**, which may be broken to reduce search;
-- **puzzle equivalence**, under which two outputs may intentionally count as the same solution or same generated puzzle;
-- **aesthetic symmetry**, a visual or stylistic property of the clues.
-
-A uniqueness test that silently inherits solver symmetry-breaking constraints may answer a different question from the intended player-facing notion of uniqueness.
-
-## Uniqueness as a second-solution or UNSAT question
-
-Given a known semantic target `T`, uniqueness can be represented by asking whether the rules and clues admit any semantic solution different from `T`:
+Given a known semantic target `T`, uniqueness can be expressed as the absence of any inequivalent semantic solution:
 
 ```text
 base rules
@@ -42,89 +20,38 @@ AND selected clues
 AND semantic_solution != T
 ```
 
-Unsatisfiability establishes uniqueness relative to that semantic projection.
+If that query is unsatisfiable, the target is unique under the chosen semantic projection and equivalence relation. This formulation also exposes incremental solving, assumptions, cores, and subset-minimization machinery.
 
-This formulation is useful because it connects uniqueness checking to incremental solving, assumptions, unsatisfiable cores, MUS extraction, and clue-selection formulations.
+## Assumptions, cores, MUS/MCS, and hitting sets
 
-## Assumption literals and incremental solving
+SAT and SMT solvers commonly support temporary **assumption literals** over a persistent base problem. Candidate clues represented as assumptions make many related puzzle variants cheap to query and can expose **unsatisfiable cores**—subsets of assumptions already sufficient for contradiction. A core is not necessarily minimal.
 
-SAT and SMT solvers commonly support temporary assumptions over a persistent base problem. Candidate clues can be represented by assumption literals, allowing many related puzzle variants to be checked without rebuilding the whole solver state.
+Related terms worth recognizing:
 
-Assumption-based APIs can also expose unsatisfiable cores: subsets of assumptions sufficient for contradiction. Those cores are not automatically minimal, but they connect naturally to clue sufficiency and explanation problems.
+- **MUS**: a minimal unsatisfiable subset;
+- **MCS**: a minimal correction subset whose removal restores satisfiability;
+- **hitting set**: a set intersecting every member of a family of sets;
+- **MaxSAT**: optimization over soft constraints under hard constraints.
 
-## MUS, MCS, hitting sets, and MaxSAT
-
-Several related concepts are worth recognizing:
-
-- **MUS** — minimal unsatisfiable subset;
-- **SMUS / optimal MUS** — smallest or minimum-cost MUS under a chosen cost model;
-- **MCS** — minimal correction subset whose removal restores satisfiability;
-- **hitting set** — a set intersecting every member of a family of sets;
-- **MaxSAT** — optimization over satisfied/violated soft clauses under hard constraints.
-
-MUS/MCS and hitting-set dualities appear in clue minimization, counterexample exclusion, human-readable explanation generation, and weighted clue selection. PySAT exposes unusually convenient implementations of several of these algorithms.
+"Minimal" means no element can be removed; it does not mean minimum cardinality or minimum cost. MUS/MCS and hitting-set dualities appear in clue sufficiency, counterexample exclusion, weighted clue selection, and human-readable explanation work.
 
 ## Global constraints as an idea catalogue
 
-Constraint-programming systems contain named high-level constraints for structures that puzzle implementations often encode manually.
+Constraint-programming libraries contain named abstractions for structures puzzle implementations often encode manually: `all_different`, cardinality, extensional `table` constraints, `regular`/automaton constraints, circuits, paths, connectivity, flows, spanning trees, and sequencing relations.
 
-Examples include:
+These catalogues can be useful even when the final implementation uses SAT, SMT, ILP, or bespoke search because they provide vocabulary for known structures and propagation techniques. Logically redundant implied constraints can also improve propagation; redundancy does not imply computational uselessness.
 
-- `all_different` and cardinality constraints;
-- `table` / extensional constraints;
-- `regular` / automaton constraints;
-- circuits and paths;
-- connectivity;
-- flows;
-- spanning trees;
-- value precedence and sequencing relations.
+## Independent verification
 
-Even when the implementation ultimately uses SAT, SMT, ILP, or bespoke search, global-constraint catalogues can serve as dictionaries of known modelling structures and propagation ideas.
+A generator and verifier can share the same modelling bug if they reuse the same encoding. Stronger checks can include an independently implemented verifier, a second encoding or solver paradigm, differential testing, exhaustive enumeration on reduced cases, property/metamorphic tests, and regression corpora containing known edge cases.
 
-Redundant implied constraints can also be useful computationally when they strengthen propagation. Logical redundancy and implementation uselessness are not equivalent.
-
-## Alternative formalisms can expose different structure
-
-Puzzle encodings may fit several paradigms:
-
-- finite-domain constraint programming;
-- SAT / MaxSAT;
-- SMT;
-- Answer Set Programming;
-- ILP/MIP;
-- exact cover;
-- graph algorithms;
-- automata;
-- bespoke propagators and search.
-
-The main value of recognizing alternatives is not that one formalism is generally superior, but that each can expose different primitives, optimization machinery, symmetry handling, counting, or explanation facilities.
-
-## Independent verification and dual encodings
-
-A generator and its verifier can share the same modelling bug if they reuse the same encoding and assumptions.
-
-Stronger forms of validation can include:
-
-- an independently implemented verifier;
-- a second solver paradigm or alternative encoding;
-- differential testing between implementations;
-- exhaustive enumeration on reduced instances;
-- property-based or metamorphic tests;
-- regression corpora containing known edge cases;
-- explicit checks that generated clues are true of the claimed solution and that no inequivalent semantic solution survives.
-
-Generated audit text can need checking too. Statements such as "this clue entails X" or a walkthrough of a reveal plan can disagree with the encoded instance, so diagnostic claims can be checked against the same formal semantics used for validation.
-
-For deterministic generators, reproducibility is itself testable: identical inputs should map to identical outputs, while corpus tests can separately examine whether that deterministic mapping has undesirable concentration.
+Diagnostic prose is another possible source of error. Claims such as "this clue entails X" or generated reveal-plan walkthroughs can disagree with the encoded instance, so important audit claims can be checked against the same formal semantics used for validation.
 
 ## Useful resources
 
-- **MiniZinc global constraint library** — a broad catalogue of modelling structures, useful even as an idea dictionary outside MiniZinc. https://docs.minizinc.dev/en/stable/lib-globals.html
-- **Global Constraint Catalog** — extensive catalogue of named global constraints and structural patterns. https://sofdem.github.io/gccat/
-- **PySAT** — Python SAT toolkit with assumptions plus examples for `Hitman`, `MUSX`, `OptUx`, `RC2`, MCS enumeration, and model enumeration. https://pysathq.github.io/docs/html/
-- **PySAT Hitman** — minimum/minimal hitting-set enumeration. https://pysathq.github.io/docs/html/api/examples/hitman.html
-- **PySAT OptUx** — optimal MUS enumeration via implicit hitting sets. https://pysathq.github.io/docs/html/api/examples/optux.html
-- **Z3 Guide** — SMT solver documentation including assumptions, cores, models, and optimization facilities. https://microsoft.github.io/z3guide/
-- **Conjure** — high-level constraint modelling and automated refinement, useful as a source of alternative representations. https://conjure.readthedocs.io/
-- **XCSP3** — constraint-programming format, benchmarks, and model ecosystem. https://xcsp.org/
-- Bart Bogaerts, Emilio Gamba, and Tias Guns, **A framework for step-wise explaining how to solve constraint satisfaction problems**. https://arxiv.org/abs/2006.06343
+- **MiniZinc global constraint library** — catalogue of high-level modelling structures. https://docs.minizinc.dev/en/stable/lib-globals.html
+- **Global Constraint Catalog** — extensive dictionary of named global constraints and structural patterns. https://sofdem.github.io/gccat/
+- **PySAT** — SAT toolkit with assumptions and implementations/examples for hitting sets, MUS/MCS, MaxSAT, and model enumeration. https://pysathq.github.io/docs/html/
+- **Z3 Guide** — SMT documentation including assumptions, cores, models, and optimization. https://microsoft.github.io/z3guide/
+- **Conjure** — high-level constraint modelling and automated refinement, useful for seeing alternative representations. https://conjure.readthedocs.io/
+- **XCSP3** — constraint-programming format and benchmark/model ecosystem. https://xcsp.org/
